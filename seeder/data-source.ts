@@ -7,11 +7,12 @@ import { Store } from "./entities/Store";
 export const AppDataSource = new DataSource({
   type: "mysql",
   host: "localhost",
-  port: 3307,
+  port: 3306,
   username: "root",
-  password: "123456",
+  password: "password1234",
   database: "rawgDatabase",
   entities: [Game, Genre, ParentPlatform, Store], // Registering entities with the data source
   synchronize: true, // Automatically create or modify database schema on every application launch
   logging: true, // Enable query logging for debugging purposes
+  dropSchema: true
 });
