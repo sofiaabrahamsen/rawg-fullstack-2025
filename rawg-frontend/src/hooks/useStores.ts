@@ -1,4 +1,7 @@
-import useData from "./useData";
+import { useQuery } from "@tanstack/react-query";
+
+import stores from "../data/stores";
+import ApiClient, { type Response } from "../services/api-client";
 
 export interface Store {
   id: number;
@@ -6,6 +9,15 @@ export interface Store {
   image_background: string;
 }
 
-const useStores = () => useData<Store>("/stores");
+const apiClient = new ApiClient<Store>("stores");
+
+const useStores = () =>
+  useQuery<Response<Store>, Error>({
+    queryKey: ["stores"],
+    queryFn: apiClient.getAll,
+    initialData: stores,
+    staleTime: 1000 * 60 * 60 * 24, // 24 hours
+    cacheTime: 1000 * 60 * 60, // 1 hour
+  });
 
 export default useStores;
